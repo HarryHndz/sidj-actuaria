@@ -413,9 +413,8 @@ export default {
       const actuarios = this.$store.getters['actuarios/getActuariosAll'].map(item => ({
         label: item.actuario,
         value: item.actuario_id,
-        ponencia_id: item.ponencia_id,
       }));
-      return _.orderBy(actuarios.filter(i => i.ponencia_id === this.expediente.ponencia_id), ['label', 'value'], ['asc', 'asc']);
+      return _.orderBy(actuarios, ['label', 'value'], ['asc', 'asc']);
     },
     errorFechaEntrega() {
       if (!this.$v.formData.fecha_entrega_actuaria.$params.validateDate) {

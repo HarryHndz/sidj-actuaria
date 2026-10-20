@@ -194,14 +194,10 @@ export default {
       return _.orderBy(ponencias, ['value', 'label'], ['asc', 'asc']);
     },
     actuarios() {
-      if (this.formData.ponencia_id) {
-        const actuarios = this.$store.getters['actuarios/getActuariosAll'].filter(item => item.ponencia_id === this.formData.ponencia_id);
-        return actuarios.map(item => ({
-          label: item.actuario,
-          value: item.actuario_id,
-        }));
-      }
-      return [];
+      return this.$store.getters['actuarios/getActuariosAll'].map(item => ({
+        label: item.actuario,
+        value: item.actuario_id,
+      }));
     },
     leyendas() {
       const listado = _.sortBy(this.$store.getters['tiposLeyendas/getTiposLeyendasAll'].map(item => ({

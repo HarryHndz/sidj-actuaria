@@ -217,7 +217,7 @@ export default {
         page = 1;
       }
 
-      const filterNoJuicio = /^((TJA|TJ|TE)(-|\/))?((X{0,3})?(IX|IV|V?I{0,3}))?(-)(\d{1,5})?(0?[0-9]{2})(\/\d{4})?/;
+      const filterNoJuicio = /^((TJA|TJ|TE)(-|\/))?((X{0,3})?(IX|IV|V?I{0,3}))?(-)(\d{1,5})?(0?[0-9]{2})(\/\d{4})?|^TJA-\d{3,8}(\/\d{4}(-[A-Z0-9]{2,4})?)?$/;
       const filterFolioAcuerdo = /^(A|PA)(-)(\d{6})(-)(\d{4})?/;
       const filterFolioActuacion = /^\d{5,10}$/;
 

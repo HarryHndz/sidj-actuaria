@@ -1,127 +1,92 @@
 # AGENTS.md — sidj-actuaria_v2
 
 ## Objetivo
-Contexto rapido para agentes que trabajen en este repositorio.
-Proyecto: SPA de Actuaria v3 para SIDJ (Quasar 1 + Vue 2). Se despliega como assets estaticos dentro del backend SIDJ.
+Contexto rápido para agentes que trabajen en este repositorio.
+Proyecto: SPA de **Actuaría v3** para SIDJ (Quasar 1 + Vue 2): cédulas, notificaciones, lista de estrados, consulta de expedientes y plantillas. Se compila a assets estáticos que se despliegan dentro del backend `../tribunal-justicia-tab`.
+Reglas transversales del workspace: `../AGENTS.md`. Visión general: `../documentacion/sidj-actuaria_v2.md`.
 
-## Stack tecnico (versiones exactas)
+## Repositorio
+- Git: `https://github.com/HarryHndz/actuaria-tribunal.git`, rama `main`.
+- El último commit (`50d355c`) quitó `@tjacdmx/sidj-components` a favor de un `ModalPdf` local; el working tree tiene cambios sin commitear que la vuelven a declarar e importar. Revisa `git status` antes de tocar `TablaAnexos.vue` / `TablaDocumentos.vue`.
+
+## Stack técnico (package.json, verificado 2026-10-20)
 
 ### Runtime y build
-- **Framework SPA**: Quasar Framework ^1.22.5
-- **Quasar CLI (build)**: @quasar/app ^2.4.3
-- **Vue**: ^2.7.14
-- **vue-template-compiler**: ^2.7.14 (debe coincidir exacto con vue)
-- **Node requerido**: >= 8.9.0
-- **npm requerido**: >= 5.6.0
-- **yarn requerido**: >= 1.6.0
+- `quasar ^1.22.10`, `@quasar/app 2.4.3` (webpack 4)
+- `vue 2.7.16`, `vue-template-compiler 2.7.16` (deben coincidir)
+- `engines`: node >= 8.9.0 (en la práctica se usa Node 24 con `--openssl-legacy-provider`, ver `../AGENTS.md`)
 
-### Dependencias principales (package.json — versiones exactas)
-- `quasar: ^1.22.5`
-- `@quasar/extras: ^1.15.9` (iconos y fuentes)
-- `@tjacdmx/sidj-components: git+ssh://git@codelab.tcadf.gob.mx:TCA_develop/sidj-components.git#master` — componentes internos TJACDMX
-- `vue: ^2.7.14`
-- `vue-template-compiler: ^2.7.14`
-- `axios: ^1.6.7`
-- `moment: ^2.29.4` + `vue-moment: ^4.1.0`
-- `lodash: ^4.17.21` + `vue-lodash: ^2.0.2`
-- `pdfjs-dist: 2.5.207` (fijada exacta — no actualizar sin validar vue-pdf)
-- `vue-pdf: 4.2.0` (fijada exacta — requiere pdfjs-dist 2.5.207)
-- `print-js: ^1.3.1`
-- `node-forge: ^0.10.0` (operaciones criptograficas)
-- `vue-sweetalert2: ^2.1.5`
-- `vuelidate: ^0.7.6` (validacion de formularios)
-- `vue-uuid: ^1.1.1`
-- `xlsx: ^0.18.5` (exportacion Excel)
-- `JSON2: ^0.1.0`
+### Dependencias principales
+- `@tjacdmx/sidj-components`: `git+https://github.com/HarryHndz/sidj-component.git#main` (fuente local en `../sidj-components-master`)
+- `axios 1.13.6`
+- `pdfjs-dist 2.5.207` + `vue-pdf 4.2.0` (fijadas exactas y acopladas), `print-js 1.6.0`
+- `node-forge 0.10.0`
+- `vuelidate 0.7.7`
+- `vue-sweetalert2 5.0.5`
+- `moment 2.30.1` + `vue-moment 4.1.0`, `lodash 4.17.21` + `vue-lodash 2.0.2`
+- `xlsx 0.18.5`, `vue-uuid 1.1.1`, `JSON2 0.1.0`, `@quasar/extras ^1.16.15`
+- `dotenv 17.3.1` (carga `.env.dev` / `.env.prod` en `quasar.conf.js`)
 
 ### DevDependencies
-- `@quasar/app: ^2.4.3`
-- `babel-eslint: ^10.0.3`
-- `eslint: ^5.10.0`
-- `eslint-plugin-vue: ^5.2.3`
+- `eslint 5.10.0`, `eslint-loader 2.2.1`, `eslint-plugin-vue 5.2.3`, `babel-eslint 10.0.3`, `@vue/eslint-config-airbnb 4.0.1`
 
-## Infraestructura y despliegue
-
-### No tiene contenedores propios
-Esta app NO tiene docker-compose ni imagen Docker propia.
-Se compila con Quasar y los assets se copian al backend SIDJ.
-
-### Scripts de deploy
+## Comandos
 ```bash
-# Desarrollo QA
-npm run deploy-qas
-# Copia dist/actuariaV3-dev/* -> ../SIDJ/public/apps/sidj-app-v001/actuariaV3-dev/
-# Copia index.html -> ../SIDJ/resources/views/apps/act_actuariav3.blade.php
-
-# Produccion
-npm run deploy-prod
-# Copia dist/actuariaV3-prod/* -> ../SIDJ/public/apps/sidj-app-v001/actuariaV3-prod/
-# Copia index.html -> ../SIDJ/resources/views/apps/act_actuariav3_prod.blade.php
-```
-
-### Comandos de trabajo
-```bash
-# Instalar dependencias
-yarn install   # o npm install
-
-# Desarrollo con hot-reload
-quasar dev
-
-# Build QA
-quasar build   # salida en dist/actuariaV3-dev/
-
-# Build produccion
-quasar build -m spa   # salida en dist/actuariaV3-prod/
-
-# Actualizar componentes internos
-npm run update-components
-
-# Lint
+npm install
+npx quasar dev              # https://local.tjacdmx.gob.mx:8080 (certificados en ssl/)
+npx quasar build            # respeta QUASAR_ENV (development por defecto)
 npm run lint
+npm run update-components   # npm update @tjacdmx/sidj-components
+npm run deploy:dev          # QUASAR_ENV=development build + copia + actualizar-blade
+npm run deploy:prod         # QUASAR_ENV=production  build + copia + actualizar-blade
 ```
+- **No hay tests** (`npm test` es un `echo`).
+- No hay CLI global de Quasar: usa `npx quasar`.
+
+## Entorno y build
+- `quasar.conf.js` lee `QUASAR_ENV` (o `NODE_ENV`), carga `.env.dev` o `.env.prod` con dotenv y expone `API_SIDJ` y `API_SCO` vía `build.env`.
+- El `name` del build muta a `actuariaV3-dev` / `actuariaV3-prod` → `distDir: dist/<name>`, `publicPath: apps/sidj-app-v001/<name>`.
+- `.env.*` no se versionan.
+
+## Despliegue
+`deploy:dev|prod` copian `dist/actuariaV3-<env>/*` a `../tribunal-justicia-tab/public/apps/sidj-app-v001/actuariaV3-<env>/` y ejecutan `node scripts/actualizar-blade.js <env>`.
+El Blade `../tribunal-justicia-tab/resources/views/apps/act_actuariav3.blade.php` es **compartido por dev y prod** (`@if APP_ENV`): el script no lo sobrescribe, solo reemplaza los hashes JS/CSS del entorno construido y falla si no actualizó ningún JS.
+Los scripts son POSIX: en Windows requieren `script-shell` de npm apuntando a Git Bash (ver `../AGENTS.md`).
 
 ## Estructura src/
 ```
 src/
-├── App.vue               # Componente raiz
-├── index.template.html   # Template HTML base
-├── assets/               # Imagenes y recursos estaticos
-├── boot/                 # Plugins inicializados antes del root Vue
-│   ├── axios.js          # Configuracion axios + interceptores
-│   ├── env.js            # Variables de entorno
-│   ├── errors.js         # Manejo global de errores
-│   └── moment.js         # Configuracion moment.js
-├── components/           # Componentes Vue reutilizables
-├── css/                  # Estilos globales (Quasar + custom)
-├── layouts/              # Layouts de pagina
-├── pages/                # Paginas (vistas de router)
-├── router/               # Vue Router (modo history o hash)
-└── store/                # Vuex store
+├── boot/        # sidjbridge.js (API SIDJ), scobridge.js (citas SCO), appConfig, env (VERSION_* y DATE_CACHE_LIMIT),
+│                # errors, validaciones, infoFile, moment, lodash, print-js, vuelidate, vue-pdf, sweetalert2, vue-uuid
+│                # (veeValidate.js existe pero NO está registrado en quasar.conf.js)
+├── pages/       # GeneracionCedulas/, Notificaciones/, NotificacionesComparecencia/, ListaEstrados/,
+│                # ExpedienteConsulta/, GrupoPlantillas/, AdminTiposLeyendas.vue, BusquedaCitasSco.vue + comunes
+├── components/  # misma división por módulo + Generales/ (ModalPdf, etc.)
+├── layouts/, router/ (guard global con meta.requiresAuth)
+└── store/       # ~82 módulos Vuex (index/state/getters/mutations/actions.js) + utlils/ (merge por id)
+manualtex/ActuariaV3   # manual de usuario en LaTeX
+scripts/actualizar-blade.js
 ```
 
-## Dependencia critica: @tjacdmx/sidj-components
-- Paquete privado alojado en `codelab.tcadf.gob.mx`
-- Se instala via SSH: requiere clave SSH con acceso al repositorio
-- Contiene componentes reutilizados entre todas las SPAs SIDJ
-- Para actualizar: `npm run update-components`
-- **Riesgo**: cambios en este paquete afectan a todas las SPAs que lo usan
+## Integración con el backend
+- `sidjbridge`: DEV `baseURL = API_SIDJ` y token Bearer de `localStorage`; PROD `<host>/api/` + `X-CSRF-TOKEN` del meta que inyecta Blade (`index.template.html` lleva `{{ csrf_token() }}`).
+- `scobridge`: `API_SCO`.
+- La URL del API **no** está en `src/boot/env.js`; ese archivo solo tiene versiones por módulo y `DATE_CACHE_LIMIT` (fecha para invalidar caché en `localStorage`).
 
-## Integracion con SIDJ backend
-- La SPA consume la API REST de SIDJ en `/api/v1/*`
-- Autenticacion via Laravel Passport (OAuth2 tokens)
-- La URL base del API se configura en `src/boot/env.js`
-- Variables de entorno en `.env` o `quasar.conf.js` (section build.env)
+## Convenciones
+- Carga de datos en el hook `preFetch` de cada página (`preFetch: true`).
+- Errores de axios → `boot/errors.js`.
+- ESLint corre como pre-loader de webpack: **un error de lint rompe el build**.
+- Al cambiar un módulo funcional, sube su `VERSION_*` en `src/boot/env.js`.
+- Código y textos en español; 2 espacios, LF.
 
 ## Advertencias para agentes
-- `vue-pdf 4.2.0` y `pdfjs-dist 2.5.207` estan fijadas exactas — NO actualizar sin probar renderizado de PDFs
-- `veevalidate` NO se usa aqui; se usa `vuelidate ^0.7.6`
-- El paquete `@tjacdmx/sidj-components` requiere acceso SSH al repo privado
-- Este proyecto usa Quasar 1.x (API Quasar v1) — NO es compatible con Quasar 2.x sin migracion
-- Vue 2.7.14 — NO migrar a Vue 3 sin plan de migracion completo
+- `vue-pdf 4.2.0` y `pdfjs-dist 2.5.207` fijadas exactas — no actualizar sin probar render de PDFs.
+- Validación con vuelidate; VeeValidate no está activo.
+- `@tjacdmx/sidj-components` se trae de `main` sin versionar: un push allí cambia esta SPA en el próximo `npm install`.
+- Quasar 1.x / Vue 2.7 — no compatible con Quasar 2 / Vue 3 sin migración.
 
 ## Checklist antes de cerrar cambios
-- Build compila sin errores (`quasar build`)
-- No hay warnings de versiones incompatibles entre vue y vue-template-compiler
-- PDFs renderizan correctamente
-- Deploy copia archivos al directorio correcto en SIDJ backend
-- Variables de entorno configuradas para el ambiente destino
+- `npm run lint` y `npx quasar build` sin errores.
+- PDFs renderizan e imprimen; cédulas y listados se generan.
+- Si se desplegó: `actualizar-blade.js` reportó los JS actualizados del entorno correcto.

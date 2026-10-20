@@ -296,8 +296,7 @@ export default {
   },
   computed: {
     actuarios() {
-      const actuarios = this.$store.getters['actuarios/getActuariosAll'].filter(item => item.ponencia_id === this.formData.ponencia_id);
-      return actuarios.map(item => ({
+      return this.$store.getters['actuarios/getActuariosAll'].map(item => ({
         label: item.actuario,
         value: item.actuario_id,
       }));
@@ -474,14 +473,9 @@ export default {
       /* eslint no-unused-expressions: [2, { allowTernary: true }] */
       val != null ? this.formData.actuario_id = val.value : this.formData.actuario_id = '';
     },
-    ponenciaObject(val, oldVal) {
+    ponenciaObject(val) {
       /* eslint no-unused-expressions: [2, { allowTernary: true }] */
       val != null ? this.formData.ponencia_id = val.value : this.formData.ponencia_id = '';
-
-      if (oldVal) {
-        this.actuarioObject = null;
-        this.formData.actuario_id = null;
-      }
     },
     leyendaObject(val) {
       /* eslint no-unused-expressions: [2, { allowTernary: true }] */

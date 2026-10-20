@@ -408,7 +408,7 @@ export default {
     async busqueda() {
       this.fetching = true;
 
-      const filterNoJuicio = /^((TJA|TJ|TE)(-|\/))?((X{0,3})?(IX|IV|V?I{0,3}))?(-)(\d{1,5})?(0?[0-9]{2})(\/\d{4})?/;
+      const filterNoJuicio = /^((TJA|TJ|TE)(-|\/))?((X{0,3})?(IX|IV|V?I{0,3}))?(-)(\d{1,5})?(0?[0-9]{2})(\/\d{4})?|^TJA-\d{3,8}(\/\d{4}(-[A-Z0-9]{2,4})?)?$/;
       const filterNoConsignacion = /^(CNS-)(\d{1,6})(\/(\d{4}))/;
       const filterNoExhorto = /^(EXH-)(\d{1,6})(\/(\d{4}))/;
       const filterFolioAcuerdo = /^(A|PA)(-)(\d{1,6})(-)(\d{4})/;
@@ -484,7 +484,7 @@ export default {
         page = 1;
       }
 
-      const filterNoJuicio = /^((TJA|TJ|TE)(-|\/))?((X{0,3})?(IX|IV|V?I{0,3}))?(-)(\d{1,5})?(0?[0-9]{2})(\/\d{4})?/;
+      const filterNoJuicio = /^((TJA|TJ|TE)(-|\/))?((X{0,3})?(IX|IV|V?I{0,3}))?(-)(\d{1,5})?(0?[0-9]{2})(\/\d{4})?|^TJA-\d{3,8}(\/\d{4}(-[A-Z0-9]{2,4})?)?$/;
       const filterFolioAcuerdo = /^(A-|PA-)(\d{1,6})(-\d{4})/;
       const filterFolioListado = /^(SO|SS|SE|SGAI|SGAII|SGA)(\d{2})?(-\d{1,6})(\/\d{4})/;
 

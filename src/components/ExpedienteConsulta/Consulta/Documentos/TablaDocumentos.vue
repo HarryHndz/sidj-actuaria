@@ -58,18 +58,16 @@
       @hide="closeModalPdf"
       v-model="previsualizarPdf"
     >
-      <modal-pdf
+      <modal-pdf-paginador
         v-if="previsualizarPdf"
         :base64="base64"
         :errorB64="errorB64"
         :documentoId="documentoId"
         :fetchingDocumento="fetchingDocumento"
         @changePage="changePage"
-        @downloadDocumento="downloadDocumento"
-        @imprimir="imprimirDocumento"
         @close="closeModalPdf"
       >
-      </modal-pdf>
+      </modal-pdf-paginador>
     </q-dialog>
   </div>
 </template>
@@ -87,7 +85,7 @@ import _ from 'lodash';
 import sidjbridge from 'boot/sidjbridge';
 import errors from 'boot/errors';
 
-import ModalPdf from 'components/Generales/ModalPdf';
+import { ModalPdfPaginador } from '@tjacdmx/sidj-components';
 import printJS from 'print-js';
 
 export default {
@@ -165,7 +163,7 @@ export default {
     QTd,
     QTr,
     QTable,
-    ModalPdf,
+    ModalPdfPaginador,
   },
   computed: {
     documentosSort() {

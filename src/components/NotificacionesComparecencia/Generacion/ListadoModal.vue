@@ -173,14 +173,10 @@ export default {
       return this.$store.getters['session/getLocalizacion'];
     },
     actuarios() {
-      if (this.formData.ponencia_id) {
-        const actuarios = this.$store.getters['actuarios/getActuariosAll'].filter(item => item.ponencia_id === this.formData.ponencia_id);
-        return actuarios.map(item => ({
-          label: item.actuario,
-          value: item.actuario_id,
-        }));
-      }
-      return [];
+      return this.$store.getters['actuarios/getActuariosAll'].map(item => ({
+        label: item.actuario,
+        value: item.actuario_id,
+      }));
     },
   },
   methods: {

@@ -329,3 +329,6 @@ TSWLatexianTemp*
 # Environment variables
 .env.dev
 .env.prod
+
+# Certificados y llaves SSL locales
+/ssl

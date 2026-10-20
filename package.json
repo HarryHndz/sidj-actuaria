@@ -9,11 +9,13 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0",
-    "deploy:dev": "QUASAR_ENV=development quasar build && echo 'Build OK' && cp -r dist/actuariaV3-dev/* ../SIDJ/public/apps/sidj-app-v001/actuariaV3-dev/ && echo 'Archivos copiados' && ls ../SIDJ/public/apps/sidj-app-v001/actuariaV3-dev/ && cp dist/actuariaV3-dev/index.html ../SIDJ/resources/views/apps/act_actuariav3.blade.php",
-    "deploy:prod": "QUASAR_ENV=production quasar build && echo 'Build OK' && cp -r dist/actuariaV3-prod/* ../SIDJ/public/apps/sidj-app-v001/actuariaV3-prod/ && echo 'Archivos copiados' && ls ../SIDJ/public/apps/sidj-app-v001/actuariaV3-prod/ && cp dist/actuariaV3-prod/index.html ../SIDJ/resources/views/apps/act_actuariav3_prod.blade.php"
+    "update-components": "npm update @tjacdmx/sidj-components",
+    "deploy:dev": "QUASAR_ENV=development quasar build && echo 'Build OK' && cp -r dist/actuariaV3-dev/* ../tribunal-justicia-tab/public/apps/sidj-app-v001/actuariaV3-dev/ && echo 'Archivos copiados' && ls ../tribunal-justicia-tab/public/apps/sidj-app-v001/actuariaV3-dev/ && node scripts/actualizar-blade.js dev",
+    "deploy:prod": "QUASAR_ENV=production quasar build && echo 'Build OK' && cp -r dist/actuariaV3-prod/* ../tribunal-justicia-tab/public/apps/sidj-app-v001/actuariaV3-prod/ && echo 'Archivos copiados' && ls ../tribunal-justicia-tab/public/apps/sidj-app-v001/actuariaV3-prod/ && node scripts/actualizar-blade.js prod"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.15",
+    "@tjacdmx/sidj-components": "git+https://github.com/HarryHndz/sidj-component.git#main",
     "axios": "1.13.6",
     "JSON2": "0.1.0",
     "dotenv": "17.3.1",

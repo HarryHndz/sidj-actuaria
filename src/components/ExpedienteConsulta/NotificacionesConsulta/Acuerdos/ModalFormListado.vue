@@ -187,8 +187,7 @@ export default {
       });
     },
     actuarios() {
-      const actuarios = this.$store.getters['actuarios/getActuariosAll'].filter(item => item.ponencia_id === this.formDataL.ponencia_id);
-      return actuarios.map(item => ({
+      return this.$store.getters['actuarios/getActuariosAll'].map(item => ({
         label: item.actuario,
         value: item.actuario_id,
       }));
