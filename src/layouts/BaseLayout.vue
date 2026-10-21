@@ -134,7 +134,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item v-if="isAllowed(['admin', 'coordinador.actuarios.ss'])"
+        <!-- <q-item v-if="isAllowed(['admin', 'coordinador.actuarios.ss'])"
           v-ripple
           clickable
           class="menu"
@@ -150,7 +150,7 @@
           <q-item-section>
             Citas SCO v{{env.VERSION_CITAS_SCO}}
           </q-item-section>
-        </q-item>
+        </q-item> -->
 
         <q-item v-if="isAllowed(['admin', 'actuaria'])"
           v-ripple
